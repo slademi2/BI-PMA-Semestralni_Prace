@@ -1,0 +1,1798 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     69714,       1790]
+NotebookOptionsPosition[     66225,       1669]
+NotebookOutlinePosition[     66560,       1684]
+CellTagsIndexPosition[     66517,       1681]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Detekce pohybu na z\[AAcute]klad\[EHacek] barvy dresu", "Title",
+ CellChangeTimes->{{3.692085097478848*^9, 3.69208511108265*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\[CapitalUAcute]vodn\[IAcute] slovo", "Section",
+ CellChangeTimes->{{3.692346252102602*^9, 3.6923462558159227`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Upozorn\[EHacek]n\[IAcute]", "Subsubsection",
+ CellChangeTimes->{{3.6923488961357727`*^9, 3.692348899115341*^9}}],
+
+Cell["\<\
+Nen\[IAcute] nutn\[EAcute] spou\[SHacek]t\[EHacek]t notebook, nebo\[THacek] \
+jsem v\[SHacek]e provedl p\[RHacek]edem, abych zamezil ztr\[AAcute]t\[EHacek] \
+\[CHacek]asu p\[RHacek]i hodnocen\[IAcute] pr\[AAcute]ce.
+V tomto dokumentu nezobrazuji exportovan\[AAcute] videa, d\[URing]vodem je, \
+\[ZHacek]e pokud naimportuji videa do Mathematicy jako animaci, Mathematica \
+za\[CHacek]ne zab\[IAcute]rat velik\[EAcute] mno\[ZHacek]stv\[IAcute] pam\
+\[EHacek]ti RAM a ob\[CHacek]as po ulo\[ZHacek]en\[IAcute] dojde k zamznut\
+\[IAcute]. Pros\[IAcute]m tedy, abyste video v\[YAcute]stup otv\[IAcute]ral v \
+jin\[EAcute]m programu. D\[EHacek]kuji.
+Spou\[SHacek]t\[EHacek]n\[IAcute] v\[EHacek]t\[SHacek]iny bun\[EHacek]k v \
+tomto dokumentu trv\[AAcute] velice dlouho. D\[URing]vodem je import a export \
+velk\[EAcute]ho mno\[ZHacek]stv\[IAcute] dat. Pros\[IAcute]m spus\[THacek]te \
+n\[AAcute]sleduj\[IAcute]c\[IAcute] bu\[NHacek]ku, p\[RHacek]edejdete probl\
+\[EAcute]m\[URing]m.
+\
+\>", "Text",
+ CellChangeTimes->{{3.692348904310131*^9, 3.692348983336043*^9}, {
+  3.692358874420689*^9, 3.6923589985961647`*^9}, {3.692362676749757*^9, 
+  3.692362724925426*^9}, {3.692362757691372*^9, 3.692362777927784*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}],
+  FontWeight->"Bold"]], "Input",
+ CellChangeTimes->{{3.692348988909669*^9, 3.692349006291128*^9}}],
+
+Cell[BoxData["\<\"/home/michal/Dokumenty/Wolfram \
+Mathematica/project/vectors/fin/prace/ByColor\"\>"], "Output",
+ CellChangeTimes->{3.692349006728698*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Import a Export", "Subsubsection",
+ CellChangeTimes->{{3.6923467646972027`*^9, 3.69234676671692*^9}, {
+  3.69234696612386*^9, 3.6923469662322063`*^9}}],
+
+Cell[TextData[{
+ "Tento notebook se zab\[YAcute]v\[AAcute] detekc\[IAcute] pohybu na z\
+\[AAcute]klad\[EHacek] barvy dresu. Jako vstup do programu slou\[ZHacek]\
+\[IAcute] sekvence obr\[AAcute]zk\[URing] z videa. Do \
+prom\[EHacek]nn\[EAcute] ",
+ StyleBox["imp ",
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ "ulo\[ZHacek]\[IAcute]me v\[SHacek]echny obr\[AAcute]zky kon\[CHacek]\
+\[IAcute]c\[IAcute] na s p\[RHacek]\[IAcute]ponou ",
+ StyleBox["png",
+  FontWeight->"Bold"],
+ ",  kter\[EAcute] jsou ulo\[ZHacek]eny ve slo\[ZHacek]ce ",
+ StyleBox["Data",
+  FontWeight->"Bold"],
+ ". Na tyto obr\[AAcute]zky pak pou\[ZHacek]ijeme funkci ",
+ StyleBox["getObject ",
+  FontWeight->"Bold"],
+ "a ",
+ StyleBox["getCenters",
+  FontWeight->"Bold"],
+ " kter\[EAcute] n\[AAcute]m daj\[IAcute] Morphologick\[EAcute] komponenty a \
+jejich st\[RHacek]edy na obr\[AAcute]zku, tyto informace exportujeme do \
+soubor\[URing] s p\[RHacek]\[IAcute]ponami ",
+ StyleBox[".xls ",
+  FontWeight->"Bold"],
+ "a ",
+ StyleBox[".png",
+  FontWeight->"Bold"],
+ "  do souboru ",
+ StyleBox["Data/Centers/ ",
+  FontWeight->"Bold"],
+ "a ",
+ StyleBox["Data/Centers/Images/.  ",
+  FontWeight->"Bold"],
+ "P\[RHacek]ed spou\[SHacek]t\[EHacek]n\[IAcute]m ka\[ZHacek]d\[EAcute] \
+importuj\[IAcute]c\[IAcute] \[CHacek]i exportuj\[IAcute]c\[IAcute] funkce je \
+pot\[RHacek]eba vykonat p\[RHacek]\[IAcute]kaz ",
+ StyleBox["SetDirectory[NotebookDirectory[]]; ",
+  FontWeight->"Bold"],
+ "(nebo p\[RHacek]i spu\[SHacek]t\[EHacek]n\[IAcute] notebooku),  abychom \
+data na\[SHacek]li a byli schopni je importovat a exportovat kam \
+pot\[RHacek]ebujeme. P\[RHacek]i exportu ve funkc\[IAcute]ch ",
+ StyleBox["getObject ",
+  FontWeight->"Bold"],
+ " a ",
+ StyleBox["getCenters",
+  FontWeight->"Bold"],
+ " pou\[ZHacek]\[IAcute]v\[AAcute]m jm\[EAcute]na soubor\[URing] tak, \
+\[ZHacek]e p\[RHacek]\[IAcute]slu\[SHacek]n\[EAcute] soubory k dan\[EAcute]mu \
+sn\[IAcute]mku jsou pojmenov\[AAcute]ny p\[RHacek]\[IAcute]slu\[SHacek]n\
+\[YAcute]m \[CHacek]\[IAcute]slem (po\[RHacek]ad\[IAcute] sn\[IAcute]mku) \
++100. Toto opat\[RHacek]en\[IAcute] jsem musel ud\[EHacek]lat, nebo\[THacek] \
+se mi st\[AAcute]valo, \[ZHacek]e sn\[IAcute]mek \[CHacek]\[IAcute]slo 11 byl \
+prohozen se sn\[IAcute]mken \[CHacek]\[IAcute]slo 1."
+}], "Text",
+ CellChangeTimes->{{3.692346260643078*^9, 3.6923466003557787`*^9}, {
+  3.6923466356168013`*^9, 3.6923467323828087`*^9}, {3.692347134304872*^9, 
+  3.6923472923854523`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["P\[RHacek]\[IAcute]prava Dat", "Subsubsection",
+ CellChangeTimes->{{3.692346788641638*^9, 3.6923467913117933`*^9}}],
+
+Cell[TextData[{
+ "Jak jsem se ji\[ZHacek] zm\[IAcute]nil, k detenci pohybu slou\[ZHacek]\
+\[IAcute] obr\[AAcute]zky na n\[EHacek]\[ZHacek] je rozsekan\[EAcute] video. \
+Toho lze doc\[IAcute]lit nap\[RHacek]\[IAcute]klad programem ffmpeg. V tomto \
+notebooku se nach\[AAcute]z\[IAcute] jednoduch\[AAcute] funkce ",
+ StyleBox["videoToImages[fps]",
+  FontWeight->"Bold"],
+ ", kter\[AAcute] rozsek\[AAcute] video na pot\[RHacek]ebn\[YAcute] po\
+\[CHacek]et sn\[IAcute]mk\[URing] zada\[YAcute] jako parametr funkce. Samoz\
+\[RHacek]ejmost\[IAcute] je nutnost nainstalovan\[EAcute]ho programu ",
+ StyleBox["ffmpeg ",
+  FontWeight->"Bold"],
+ "(funguje na Linux(Ubuntu,Mint,...), Nem\[EHacek]l jsem \
+p\[RHacek]\[IAcute]le\[ZHacek]itost to otestovat na jin\[YAcute]ch stroj\
+\[IAcute]ch..)"
+}], "Text",
+ CellChangeTimes->{{3.69234679406711*^9, 3.692346948939789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Barvy", "Subsubsection",
+ CellChangeTimes->{{3.692359202067206*^9, 3.6923592050980062`*^9}}],
+
+Cell[TextData[{
+ "Barvy dres\[URing] jednotliv\[YAcute]ch t\[YAcute]m\[URing] jsem vyt\
+\[AAcute]hl z obr\[AAcute]zk\[URing] ru\[CHacek]n\[EHacek]. Pokud bychom tedy \
+cht\[EHacek]li aplikovat tento program na jin\[AAcute] data, bylo by pot\
+\[RHacek]eba nahradit hodnoty v prom\[EHacek]nn\[YAcute]ch ",
+ StyleBox["team1, team2 ",
+  FontWeight->"Bold"],
+ "a ",
+ StyleBox["rozhodci. ",
+  FontWeight->"Bold"],
+ "D\[AAcute]le jsem p\[RHacek]evzal \[CHacek]\[AAcute]st k\[OAcute]du z \
+funkce ",
+ StyleBox["isThereColor",
+  FontWeight->"Bold"],
+ " z f\[OAcute]ra, jedn\[AAcute] se o \[CHacek]\[AAcute]st k\[OAcute]du na p\
+\[RHacek]evod sou\[RHacek]adnic. Odkaz na forum n\[IAcute]\[ZHacek]e."
+}], "Text",
+ CellChangeTimes->{{3.692359207840953*^9, 3.692359279482139*^9}, {
+  3.692359353401476*^9, 3.692359414607149*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+  "Hyperlink", "[", 
+   "\"\<http://mathematica.stackexchange.com/questions/100513/finding-pixel-\
+coordinates-from-morphological-components\>\"", "]"}],
+  FontWeight->"Bold",
+  FontSlant->"Italic"]], "Input",
+ CellChangeTimes->{{3.69206859511767*^9, 3.692068595125189*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  ButtonBox[
+   PaneSelectorBox[{
+    False->"\<\"http://mathematica.stackexchange.com/questions/100513/finding-\
+pixel-coordinates-from-morphological-components\"\>", True->
+    StyleBox["\<\"http://mathematica.stackexchange.com/questions/100513/\
+finding-pixel-coordinates-from-morphological-components\"\>", 
+     "HyperlinkActive"]}, Dynamic[
+     CurrentValue["MouseOver"]],
+    BaseStyle->{"Hyperlink"},
+    FrameMargins->0,
+    ImageSize->Automatic],
+   BaseStyle->"Hyperlink",
+   ButtonData->{
+     URL["http://mathematica.stackexchange.com/questions/100513/finding-pixel-\
+coordinates-from-morphological-components"], None},
+   ButtonNote->
+    "http://mathematica.stackexchange.com/questions/100513/finding-pixel-\
+coordinates-from-morphological-components"],
+  Annotation[#, 
+   "http://mathematica.stackexchange.com/questions/100513/finding-pixel-\
+coordinates-from-morphological-components", "Hyperlink"]& ]], "Output",
+ CellChangeTimes->{3.692359428801162*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Detekce pohybu", "Subsubsection",
+ CellChangeTimes->{{3.692346776521678*^9, 3.6923467788791847`*^9}}],
+
+Cell[TextData[{
+ "Detekce pohybu prob\[IAcute]h\[AAcute] na porovn\[AAcute]n\[IAcute] sn\
+\[IAcute]mk\[URing] v\[URing]\[CHacek]i sn\[IAcute]mku referen\[CHacek]n\
+\[IAcute]mu (",
+ StyleBox["Data/Empty/empty.png",
+  FontWeight->"Bold"],
+ "). Tyto rozd\[IAcute]ly jsou vyexportov\[AAcute]ny do soubor\[URing], jak \
+jsem zm\[IAcute]nil v kapitole ",
+ StyleBox["Import a Export , ",
+  FontSlant->"Italic"],
+ "D\[AAcute]le pak prob\[IAcute]h\[AAcute] spojov\[AAcute]n\[IAcute] objekt\
+\[URing], kter\[EAcute] pat\[RHacek]\[IAcute] k sob\[EHacek] na \
+z\[AAcute]klad\[EHacek] barvy, kterou objekty obsahuj\[IAcute] a na bl\
+\[IAcute]zkosti objekt\[URing] na po sob\[EHacek] jdouc\[IAcute]ch \
+sn\[IAcute]mc\[IAcute]ch. V\[IAcute]ce v koment\[AAcute]\[RHacek]\[IAcute]ch \
+u funkc\[IAcute]."
+}], "Text",
+ CellChangeTimes->{{3.692346979190637*^9, 3.692347130982366*^9}, {
+  3.692347312757369*^9, 3.692347339481475*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+P\[RHacek]\[IAcute]prava dat (tak\[EAcute] v slideshow.nb a pokud jste pr\
+\[AAcute]ci pr\[AAcute]v\[EHacek] st\[AAcute]hl tak provedeno)\
+\>", "Section",
+ CellChangeTimes->{{3.692085113859371*^9, 3.692085118419909*^9}, 
+   3.692346257472077*^9, {3.69236265852873*^9, 3.692362671071042*^9}, {
+   3.6923627294490337`*^9, 3.6923627503623247`*^9}, {3.69236279191925*^9, 
+   3.692362798581922*^9}, 3.692362846587542*^9}],
+
+Cell["\<\
+Pro p\[RHacek]\[IAcute]pravu dat z videa pou\[ZHacek]iji program ffmpeg (data \
+jsou ulo\[ZHacek]ena ve slo\[ZHacek]ce Data/). Vstupn\[IAcute] video se \
+jmenuje imput.mp4. Lze pou\[ZHacek]\[IAcute]t n\[AAcute]sleduj\[IAcute]c\
+\[IAcute] funkci, kter\[AAcute]  video rozd\[EHacek]l\[IAcute] na \
+sn\[IAcute]mky v zadan\[EAcute]m po\[CHacek]tu fps a ulo\[ZHacek]\[IAcute] je \
+do slo\[ZHacek]ky Data/Base/.\
+\>", "Text",
+ CellChangeTimes->{{3.692085123484787*^9, 3.692085235713801*^9}, {
+  3.692345995954177*^9, 3.692346039461447*^9}, {3.692349101158744*^9, 
+  3.692349114070071*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"videToImages", "[", "fps_Integer", "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"str", "=", 
+     RowBox[{"\"\<ffmpeg -i ./Data/imput.mp4 -r \>\"", "<>", 
+      RowBox[{"ToString", "[", "fps", "]"}], "<>", 
+      "\"\< ./Data/Base/output_%06d.png\>\""}]}], ";", "\[IndentingNewLine]", 
+    
+    RowBox[{"Run", "[", "str", "]"}]}], "\[IndentingNewLine]", 
+   ")"}]}]}], "Input",
+ CellChangeTimes->{{3.692085238548827*^9, 3.692085250054493*^9}, 
+   3.69234599106043*^9, {3.6923460472184772`*^9, 3.692346119203322*^9}, {
+   3.6923461504663754`*^9, 3.692346175202691*^9}, {3.69234905647815*^9, 
+   3.692349059189567*^9}, {3.692362911576106*^9, 3.692362913496862*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"videToImages", "[", "10", "]"}]], "Input",
+ CellChangeTimes->{{3.692346123128377*^9, 3.692346126406391*^9}, {
+  3.692349013825306*^9, 3.6923490166002703`*^9}}],
+
+Cell[BoxData["0"], "Output",
+ CellChangeTimes->{
+  3.69234615633666*^9, 3.6923461971894283`*^9, 3.692349028637848*^9, 
+   3.6923490918009167`*^9, 3.692349129074995*^9, 3.692362861385304*^9, {
+   3.692362900667342*^9, 3.692362925873145*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Export st\[RHacek]ed\[URing] objekt\[URing] (tak\[EAcute] v slideshow.nb a \
+pokud jste pr\[AAcute]ci pr\[AAcute]v\[EHacek] st\[AAcute]hl tak provedeno)\
+\>", "Section",
+ CellChangeTimes->{{3.692085281348284*^9, 3.692085291764675*^9}, {
+  3.692362736973254*^9, 3.692362746395583*^9}, {3.69236280207098*^9, 
+  3.692362836810038*^9}}],
+
+Cell[TextData[{
+ "V t\[EHacek]chto dvou funkc\[IAcute]ch pou\[ZHacek]\[IAcute]v\[AAcute]m \
+referen\[CHacek]n\[IAcute] obrzek ",
+ StyleBox["empty.png",
+  FontWeight->"Bold"],
+ " a ",
+ StyleBox["mask.png. ",
+  FontWeight->"Bold"],
+ "Ka\[ZHacek]d\[YAcute] obr\[AAcute]zek z videa porovn\[AAcute]m na rozd\
+\[IAcute]ly s obr\[AAcute]zkem referen\[CHacek]n\[IAcute]m  a tento rozd\
+\[IAcute]l vymaskuji (nezaj\[IAcute]m\[AAcute] n\[AAcute]s okol\[IAcute] h\
+\[RHacek]i\[SHacek]t\[EHacek].). Pot\[EAcute] tyto rozd\[IAcute]ly \
+p\[RHacek]evedu do bin\[AAcute]rn\[IAcute] podoby a uzav\[RHacek]u objekty \
+Funkc\[IAcute] ",
+ StyleBox["Closing, ",
+  FontWeight->"Bold"],
+ "d\[AAcute]le vyma\[ZHacek]u mal\[EAcute] objekty (men\[SHacek]\[IAcute] ne\
+\[ZHacek] 200px) funkc\[IAcute] ",
+ StyleBox["DeleteSmallComponents",
+  FontWeight->"Bold"],
+ " a zavol\[AAcute]m na tento v\[YAcute]sledek fukci ",
+ StyleBox["MorphologicalComponents",
+  FontWeight->"Bold"],
+ ", kter\[AAcute] mi vr\[AAcute]t\[IAcute] objekty. Ve funkci ",
+ StyleBox["getCenters ",
+  FontWeight->"Bold"],
+ "nav\[IAcute]c zavol\[AAcute]m je\[SHacek]t\[EHacek] funkci ",
+ StyleBox["ComponentMeasurements",
+  FontWeight->"Bold"],
+ " s parametrem ",
+ StyleBox[",{\[OpenCurlyDoubleQuote]Centroid\[CloseCurlyDoubleQuote]}  ",
+  FontWeight->"Bold"],
+ "a dostanu st\[RHacek]edy t\[EHacek]chto objekt\[URing]."
+}], "Text",
+ CellChangeTimes->{{3.692085298815246*^9, 3.692085312286668*^9}, {
+  3.692347357041759*^9, 3.692347613559073*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"empty", "=", 
+   RowBox[{"Import", "[", "\"\<Data/Empty/empty.png\>\"", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mask", "=", 
+   RowBox[{"Import", "[", "\"\<Data/Empty/mask.png\>\"", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"folder", "=", "\"\<Data/Centers/\>\""}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getObject", "[", "second_", "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MorphologicalComponents", "[", " ", 
+     RowBox[{"(*", 
+      RowBox[{
+      "Z\[IAcute]sk\[AAcute]n\[IAcute]", " ", "spojen\[YAcute]ch", " ", 
+       "komponent", " ", "na", " ", "obr\[AAcute]zku"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"DeleteSmallComponents", "[", " ", 
+      RowBox[{"(*", 
+       RowBox[{
+       "odstran\[EHacek]n\[IAcute]", " ", "mal\[YAcute]ch", " ", "komponent", 
+        " ", 
+        RowBox[{"(", 
+         RowBox[{"200", "px"}], ")"}]}], "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Closing", "[", " ", 
+        RowBox[{"(*", 
+         RowBox[{"uzav\[RHacek]en\[IAcute]", " ", "komponent"}], "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Binarize", "[", 
+          RowBox[{"(*", "Binarizace", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"ImageDifference", "[", 
+            RowBox[{
+             RowBox[{"Blur", "[", 
+              RowBox[{"(*", 
+               RowBox[{
+               "rozd\[IAcute]l", " ", "obr\[AAcute]zk\[URing]", " ", "s", " ",
+                 "pou\[ZHacek]it\[IAcute]m", " ", "masky"}], "*)"}], 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"ImageAdd", "[", 
+                RowBox[{"mask", ",", "empty"}], "]"}], "\[IndentingNewLine]", 
+               ",", "4"}], "]"}], ",", 
+             RowBox[{"Blur", "[", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"ImageAdd", "[", 
+                RowBox[{"mask", ",", "second"}], "]"}], "\[IndentingNewLine]",
+                ",", "4"}], "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Max", "[", "#", "]"}], ">", "0.30"}], "&"}]}], "]"}], 
+         ",", "\[IndentingNewLine]", "5"}], "]"}], "\[IndentingNewLine]", ",",
+        "200"}], "]"}], "\[IndentingNewLine]", "]"}], "//", "Colorize"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getCenters", "[", "second_", "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"ComponentMeasurements", "[", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+     "z\[IAcute]sk\[AAcute]n\[IAcute]", " ", "st\[RHacek]ed\[URing]", " ", 
+      "objekt\[URing]"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"MorphologicalComponents", "[", "\[IndentingNewLine]", 
+       RowBox[{"DeleteSmallComponents", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Closing", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Binarize", "[", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"ImageDifference", "[", 
+              RowBox[{
+               RowBox[{"Blur", "[", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"ImageAdd", "[", 
+                  RowBox[{"mask", ",", "empty"}], "]"}], 
+                 "\[IndentingNewLine]", ",", "4"}], "]"}], ",", 
+               RowBox[{"Blur", "[", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"ImageAdd", "[", 
+                  RowBox[{"mask", ",", "second"}], "]"}], 
+                 "\[IndentingNewLine]", ",", "4"}], "]"}]}], "]"}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Max", "[", "#", "]"}], ">", "0.30"}], "&"}]}], "]"}], 
+           ",", "\[IndentingNewLine]", "5"}], "]"}], "\[IndentingNewLine]", 
+         ",", "200"}], "]"}], "\[IndentingNewLine]", "]"}], "//", 
+      "Colorize"}], "\[IndentingNewLine]", ",", 
+     RowBox[{"{", "\"\<Centroid\>\"", "}"}]}], "\[IndentingNewLine]", "]"}]}],
+   "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "funkce", " ", "na", " ", "exportov\[AAcute]n\[IAcute]", " ", 
+    "obr\[AAcute]zk\[URing]", " ", "nebo", " ", 
+    RowBox[{"soubor\[URing]", "."}]}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"exportCentersToImg", "[", "img_", "]"}], ":=", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"it", "++"}], ";", 
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"folder", "<>", "\"\<Images/\>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{"100", "+", "it"}], "]"}], "<>", "\"\<.png\>\""}], ",", 
+      RowBox[{"getObject", "[", "img", "]"}]}], "]"}], ";"}], " ", 
+   ")"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"exportCentersToXls", "[", "img_", "]"}], ":=", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"it", "++"}], ";", 
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"folder", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{"100", "+", "it"}], "]"}], "<>", "\"\<.xls\>\""}], ",", 
+      RowBox[{
+       RowBox[{"getCenters", "[", "img", "]"}], "\[LeftDoubleBracket]", 
+       RowBox[{"All", ",", "2", ",", "1"}], "\[RightDoubleBracket]"}]}], 
+     "]"}], ";"}], " ", ")"}]}]}], "Input",
+ CellChangeTimes->{{3.6917552332283173`*^9, 3.691755275890093*^9}, {
+  3.692014340167746*^9, 3.692014362569379*^9}, {3.692014473630715*^9, 
+  3.692014547664174*^9}, {3.692015772406789*^9, 3.692015805984921*^9}, {
+  3.692347036641139*^9, 3.6923470387377987`*^9}, {3.692347635670994*^9, 
+  3.6923476364807253`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Export st\[RHacek]ed\[URing] a objekt\[URing]", "Subsection",
+ CellChangeTimes->{{3.6923466106750727`*^9, 3.692346622803585*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"import", " ", "obr\[AAcute]zk\[URing]", " ", "z", " ", "videa"}], 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"imp", "=", 
+    RowBox[{"Import", "[", "\"\<Data/Base/*.png\>\"", "]"}]}], 
+   ";"}]}]], "Input",
+ CellChangeTimes->{{3.692349133421751*^9, 3.692349160680922*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"it", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"exportCentersToImg", "[", "#", "]"}], "&"}], "/@", "imp"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"it", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"exportCentersToXls", "[", "#", "]"}], "&"}], "/@", "imp"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.69201581577035*^9, 3.692015817078435*^9}, {
+  3.692347632628593*^9, 3.692347632811311*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Funkce na spojov\[AAcute]n\[IAcute] objekt\[URing] na z\[AAcute]klad\
+\[EHacek] barvy", "Section",
+ CellChangeTimes->{{3.692085358448944*^9, 3.6920853713415623`*^9}}],
+
+Cell[TextData[{
+ "Funkce ",
+ StyleBox["IsThereColor[playerId,color,odchylka]",
+  FontWeight->"Bold"],
+ " n\[AAcute]m do prom\[EHacek]nn\[EAcute] ",
+ StyleBox["pom",
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ " p\[RHacek]\[IAcute]d\[AAcute]v\[AAcute] ",
+ StyleBox["id",
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ " komponent (po\[RHacek]ad\[IAcute] komponenty na obr\[AAcute]zku), pokud \
+tato komponenta obsahuje zadanou barvu ",
+ StyleBox["color.",
+  FontWeight->"Bold"]
+}], "Text",
+ CellChangeTimes->{{3.6923476719632463`*^9, 3.692347761977118*^9}, 
+   3.692362956320381*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"isThereColor", "[", 
+   RowBox[{"playerID_", ",", "color_", ",", "odchylka_"}], "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "p\[RHacek]eveden\[IAcute]", " ", "sou\[RHacek]adnic", " ", 
+     "obr\[AAcute]zku", " ", "do", " ", "sou\[RHacek]adnic", " ", 
+     "pou\[ZHacek]\[IAcute]van\[YAcute]ch", " ", "Graphics", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"p\[RHacek]evzato", " ", 
+        RowBox[{"z", ":", " ", "http", ":"}]}], "//", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"mathematica", ".", "stackexchange", ".", "com"}], "/", 
+           "questions"}], "/", "100513"}], "/", "finding"}], "-", "pixel", 
+        "-", "coordinates", "-", "from", "-", "morphological", "-", 
+        "components"}]}], ")"}]}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Z\[IAcute]sk\[AAcute]n\[IAcute]", " ", "sou\[RHacek]adnic", " ", 
+     "komponenty", " ", "na", " ", "sn\[IAcute]mku", " ", "z", " ", "listu", 
+     " ", 
+     RowBox[{"imp", "\[LeftDoubleBracket]", "pos", "\[RightDoubleBracket]"}], 
+     " ", "a", " ", "pozici", " ", "playerID"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"coordinates", "=", 
+     RowBox[{
+      RowBox[{"Map", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "1"}], ",", 
+            RowBox[{
+             RowBox[{"ImageDimensions", "[", 
+              RowBox[{
+              "components", "\[LeftDoubleBracket]", "1", 
+               "\[RightDoubleBracket]"}], "]"}], "\[LeftDoubleBracket]", "2", 
+             "\[RightDoubleBracket]"}]}], "}"}], "+", 
+          RowBox[{
+           RowBox[{"Reverse", "[", "#", "]"}], "*", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "}"}]}]}], "&"}], ",", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"#", "[", "\"\<NonzeroPositions\>\"", "]"}], "&"}], "/@", 
+         RowBox[{
+          RowBox[{"ComponentMeasurements", "[", 
+           RowBox[{
+            RowBox[{
+            "components", "\[LeftDoubleBracket]", "pos", 
+             "\[RightDoubleBracket]"}], ",", "\"\<Mask\>\""}], "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"All", ",", "2"}], "]"}], "]"}]}], ",", 
+        RowBox[{"{", "2", "}"}]}], "]"}], "\[LeftDoubleBracket]", "playerID", 
+      "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+     "na", " ", "sn\[IAcute]mku", " ", "z", " ", "listu", " ", "imp", " ", 
+      "na", " ", "pozici", " ", "pos", " ", "hled\[AAcute]m", " ", "barvu", 
+      " ", "color", " ", "s", " ", "odchylkou", " ", "0.01"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"c", "=", 
+     RowBox[{"PixelValuePositions", "[", 
+      RowBox[{
+       RowBox[{
+       "imp", "\[LeftDoubleBracket]", "pos", "\[RightDoubleBracket]"}], ",", 
+       RowBox[{"RGBColor", "[", "color", "]"}], ",", "odchylka"}], "]"}]}], 
+    ";", " ", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+      "pokud", " ", "obsahuje", " ", "sn\[IAcute]mek", " ", "zadanou", " ", 
+       "barvu"}], ",", " ", 
+      RowBox[{
+      "p\[RHacek]id\[AAcute]m", " ", "ho", " ", "do", " ", "listu", " ", 
+       "pom"}], ",", " ", 
+      RowBox[{
+      "kter\[YAcute]", " ", "pou\[ZHacek]\[IAcute]v\[AAcute]m", " ", "ve", 
+       " ", "funkci", " ", "findNext", " ", "pro", " ", "rekonstrukci", " ", 
+       "cesty", " ", "hr\[AAcute]\[CHacek]e"}]}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"ContainsAny", "[", 
+        RowBox[{"coordinates", ",", "c"}], "]"}], ",", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"pom", ",", "playerID"}], "]"}]}], "]"}], "pom"}]}], 
+   "\[IndentingNewLine]", ")"}]}]], "Input",
+ CellChangeTimes->{
+  3.692085373482833*^9, {3.692085439415657*^9, 3.6920854565061817`*^9}, {
+   3.692086853821313*^9, 3.692086859247601*^9}, {3.6923479932236643`*^9, 
+   3.6923479939522533`*^9}, {3.69235946302872*^9, 3.692359509946666*^9}, {
+   3.692363016111184*^9, 3.692363028235907*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Funkce findNearest", "Subsubsection",
+ CellChangeTimes->{{3.692001988933972*^9, 3.692001996474868*^9}, {
+  3.692347953843791*^9, 3.692347954366337*^9}}],
+
+Cell[TextData[{
+ "Tato funkce hled\[AAcute] nejbli\[ZHacek]\[SHacek]\[IAcute] objekt z listu ",
+ StyleBox["pom ",
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ "(list komponent s jednou barvou) k objektu minul\[EAcute]mu (posledn\
+\[IAcute] platn\[YAcute] v\[YAcute]sledek z minul\[YAcute]ch sn\[IAcute]mk\
+\[URing], ozna\[CHacek]eno indexem ",
+ StyleBox["LastOk",
+  FontWeight->"Bold"],
+ ") a vrac\[IAcute] index tohoto objektu."
+}], "Text",
+ CellChangeTimes->{{3.692001999770734*^9, 3.6920020231101427`*^9}, {
+  3.6923477787547894`*^9, 3.6923478403825893`*^9}, {3.692363044299973*^9, 
+  3.692363052021728*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"findNearest", "[", "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"vzd\[AAcute]lenost", " ", "prvn\[IAcute]ho", " ", "objektu"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"mind", "=", 
+     RowBox[{"EuclideanDistance", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+         "centers", "\[LeftDoubleBracket]", "pos", "\[RightDoubleBracket]"}], 
+         "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+        "\[LeftDoubleBracket]", 
+        RowBox[{"pom", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}],
+         "\[RightDoubleBracket]"}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+         "centers", "\[LeftDoubleBracket]", "lastOk", 
+          "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", 
+        RowBox[{"Last", "[", "path", "]"}], "\[RightDoubleBracket]"}]}], 
+      "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"minIndex", "=", 
+     RowBox[{"pom", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+    ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{"index", " ", "prvn\[IAcute]ho", " ", "objektu"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"i", "=", "2"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"While", "[", 
+     RowBox[{
+      RowBox[{"i", "<=", 
+       RowBox[{"Length", "[", "pom", "]"}]}], ",", " ", 
+      RowBox[{"(*", 
+       RowBox[{
+       "cyklus", " ", "p\[RHacek]es", " ", "v\[SHacek]echny", " ", "objekty", 
+        " ", "s", " ", "jednou", " ", "barvou"}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"new", "=", 
+        RowBox[{"EuclideanDistance", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+            "centers", "\[LeftDoubleBracket]", "pos", 
+             "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+            "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", 
+           RowBox[{
+           "pom", "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}], 
+           "\[RightDoubleBracket]"}], ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+            "centers", "\[LeftDoubleBracket]", "lastOk", 
+             "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+            "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", 
+           RowBox[{"Last", "[", "path", "]"}], "\[RightDoubleBracket]"}]}], 
+         "]"}]}], ";", " ", 
+       RowBox[{"(*", 
+        RowBox[{
+        "vzd\[AAcute]lenost", " ", "dal\[SHacek]\[IAcute]ho", " ", 
+         "objektu"}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"new", "<", "mind"}], ",", 
+         RowBox[{
+          RowBox[{"minIndex", "=", 
+           RowBox[{
+           "pom", "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}]}], 
+          ";", 
+          RowBox[{"mind", "=", "new"}]}]}], "]"}], ";", 
+       RowBox[{"(*", 
+        RowBox[{
+        "objekt", " ", "je", " ", "bl\[IAcute]\[ZHacek]e", " ", "ne\[ZHacek]",
+          " ", "dosavadn\[AAcute]", " ", 
+         "nejbli\[ZHacek]\[SHacek]\[IAcute]"}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"i", "++"}], ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"minIndex", "=", "0"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"lastOk", "=", "pos"}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+     "nastav\[IAcute]m", " ", "posledn\[IAcute]", " ", "platn\[YAcute]", " ", 
+      "na", " ", "sou\[CHacek]asn\[YAcute]"}], "*)"}], "\[IndentingNewLine]", 
+    "minIndex"}], " ", 
+   RowBox[{"(*", 
+    RowBox[{
+    "vrac\[IAcute]m", " ", "index", " ", "nejbli\[ZHacek]\[SHacek]iho", " ", 
+     "objektu"}], "*)"}], "\[IndentingNewLine]", ")"}]}]], "Input",
+ CellChangeTimes->{{3.692001809479766*^9, 3.6920018293405857`*^9}, {
+  3.692001908334964*^9, 3.692001942475803*^9}, {3.692087585963559*^9, 
+  3.6920876145121813`*^9}, {3.692088516421788*^9, 3.6920885443289223`*^9}, {
+  3.692088738580679*^9, 3.692088762602339*^9}, {3.692089726245624*^9, 
+  3.6920897657440166`*^9}, {3.692090537102255*^9, 3.692090547920622*^9}, {
+  3.692090684204843*^9, 3.692090684429545*^9}, {3.6920912583663673`*^9, 
+  3.692091259617402*^9}, {3.6920915159744596`*^9, 3.6920915416869*^9}, {
+  3.6920930505982733`*^9, 3.692093051458959*^9}, {3.692093861980255*^9, 
+  3.6920938629449253`*^9}, {3.692166951872632*^9, 3.6921669527982073`*^9}, {
+  3.692263928391489*^9, 3.692263931676484*^9}, {3.6923372451426563`*^9, 
+  3.692337246008354*^9}, {3.692347846370035*^9, 3.692347932070992*^9}, {
+  3.692363063185631*^9, 3.692363073689554*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Funkce findNext p\[RHacek]i\[RHacek]azuje do path nejvhodn\[EHacek]j\[SHacek]\
+\[IAcute] daj\[SHacek]\[IAcute] objekt z obr\[AAcute]zku img\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.692002038380947*^9, 3.69200206602978*^9}, {
+  3.692002562994418*^9, 3.692002570938079*^9}}],
+
+Cell[TextData[{
+ "Na z\[AAcute]klad\[EHacek] barvy ",
+ StyleBox["color",
+  FontWeight->"Bold"],
+ " a ",
+ StyleBox["odchylky ",
+  FontWeight->"Bold"],
+ "od t\[EAcute]to barvy vol\[AAcute] funkcy ",
+ StyleBox["isThereColor ",
+  FontWeight->"Bold"],
+ "a p\[RHacek]id\[AAcute]v\[AAcute] v\[YAcute]sledky do listu ",
+ StyleBox["path (",
+  FontWeight->"Bold"],
+ "list po\[RHacek]ad\[IAcute] komponent na sn\[IAcute]mku, kde ",
+ StyleBox["path\[LeftDoubleBracket]pos\[RightDoubleBracket] ",
+  FontWeight->"Bold"],
+ "odpov\[IAcute]d\[AAcute] \[CHacek]islu komponenty na sn\[IAcute]mku v po\
+\[RHacek]ad\[IAcute] ",
+ StyleBox["pos)",
+  FontWeight->"Bold"]
+}], "Text",
+ CellChangeTimes->{{3.69236314067456*^9, 3.692363270124*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"findNext", "[", 
+   RowBox[{"color_", ",", "p_", ",", "odchylka_"}], "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"pos", "=", "p"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"pom", "=", 
+     RowBox[{"{", "}"}]}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+      "pomocn\[YAcute]", " ", "list", " ", "na", " ", "nalezen\[EAcute]", " ",
+        "objekty", " ", "zadan\[EAcute]", " ", "barvy", " ", "na", " ", 
+       "sn\[IAcute]mku"}], ",", " ", 
+      RowBox[{
+      "p\[RHacek]i\[RHacek]azujeme", " ", "do", " ", "n\[EHacek]j", " ", "ve",
+        " ", "funkci", " ", 
+       StyleBox["isThereColor",
+        FontWeight->"Plain"], 
+       StyleBox[" ",
+        FontWeight->"Plain"], 
+       StyleBox["a",
+        FontWeight->"Plain"], 
+       StyleBox[" ",
+        FontWeight->"Plain"], 
+       StyleBox["vybir\[AAcute]me",
+        FontWeight->"Plain"], 
+       StyleBox[" ",
+        FontWeight->"Plain"], 
+       StyleBox["z",
+        FontWeight->"Plain"], 
+       StyleBox[" ",
+        FontWeight->"Plain"], 
+       StyleBox["n\[EHacek]j",
+        FontWeight->"Plain"], 
+       StyleBox[" ",
+        FontWeight->"Plain"], 
+       StyleBox["ve",
+        FontWeight->"Plain"], 
+       StyleBox[" ",
+        FontWeight->"Plain"], 
+       StyleBox["funkci",
+        FontWeight->"Plain"], 
+       StyleBox[" ",
+        FontWeight->"Plain"], 
+       StyleBox["findNearest",
+        FontWeight->"Plain"]}]}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"isThereColor", "[", 
+       RowBox[{"#", ",", "color", ",", "odchylka"}], "]"}], "&"}], "/@", 
+     RowBox[{"Range", "[", 
+      RowBox[{"1", ",", 
+       RowBox[{"Length", "[", 
+        RowBox[{"ComponentMeasurements", "[", 
+         RowBox[{
+          RowBox[{
+          "components", "\[LeftDoubleBracket]", "pos", 
+           "\[RightDoubleBracket]"}], ",", 
+          RowBox[{"{", "\"\<Centroid\>\"", "}"}]}], "]"}], "]"}]}], "]"}]}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+      "pro", " ", "zadanou", " ", "barvu", " ", "color", " ", "zavola", " ", 
+       "funkci", " ", "isThereColor", " ", "pro", " ", "Range", " ", "od", 
+       " ", "1", " ", "do", " ", "po\[CHacek]tu", " ", "objekt\[URing]", " ", 
+       "na", " ", "zadan\[EAcute]m", " ", "sn\[IAcute]mku", " ", "a", " ", 
+       "ulo\[ZHacek]\[IAcute]", " ", "do", " ", "prom\[EHacek]nn\[EAcute]", 
+       " ", "pom", " ", "indexy", " ", "objekt\[URing]"}], ",", " ", 
+      RowBox[{
+      "kter\[EAcute]", " ", "tuto", " ", "barvu", " ", "obsahuj\[IAcute]"}]}],
+      "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+     "pokud", " ", "nalezl", " ", "pouze", " ", "jeden", " ", "objekt", " ", 
+      "se", " ", "stejnou", " ", "barvou", " ", 
+      "p\[RHacek]i\[RHacek]ad\[IAcute]m", " ", "ho", " ", "do", " ", "cesty", 
+      " ", "hr\[AAcute]\[CHacek]e", " ", "path", " ", "a", " ", 
+      "prom\[EHacek]nnou", " ", "lastOk", " ", "nastav\[YAcute]m", " ", "na", 
+      " ", "pozici", " ", "ve", " ", "videu"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Length", "[", "pom", "]"}], "\[Equal]", "1"}], ",", 
+      RowBox[{
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"path", ",", 
+         RowBox[{
+         "pom", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+        "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"lastOk", "=", "pos"}], ";"}]}], "\[IndentingNewLine]", "]"}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+      "pokud", " ", "jsme", " ", "nalezli", " ", "v\[IAcute]ce", " ", 
+       "objekt\[URing]", " ", "se", " ", "stejnou", " ", "barvou"}], ",", " ", 
+      RowBox[{
+      "vezmeme", " ", "ten", " ", "bli\[ZHacek]\[SHacek]\[IAcute]", " ", "k", 
+       " ", "minul\[EAcute]mu", " ", 
+       RowBox[{"(", 
+        RowBox[{"funkce", " ", "findNearest"}], ")"}]}]}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Length", "[", "pom", "]"}], ">", "1"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"l", "=", 
+        RowBox[{"findNearest", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"path", ",", "l"}], "]"}], ";"}]}], "\[IndentingNewLine]", 
+     "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+      "nenalezl", " ", "jsem", " ", "\[ZHacek]\[AAcute]dn\[YAcute]", " ", 
+       "objekt", " ", "s", " ", "danou", " ", "barvou"}], ",", " ", 
+      RowBox[{
+      "p\[RHacek]id\[AAcute]m", " ", "ted", " ", "0", " ", "do", " ", 
+       "path"}]}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Length", "[", "pom", "]"}], "\[Equal]", "0"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"path", ",", "0"}], "]"}], ";"}]}], "\[IndentingNewLine]", 
+     "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+     "zavol\[AAcute]m", " ", "funkci", " ", "prettyExport", " ", "na", " ", 
+      "danou", " ", "pozici"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"prettyExport", "[", 
+     RowBox[{
+      RowBox[{"Last", "[", "path", "]"}], ",", "pos"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", ")"}]}]], "Input",
+ CellChangeTimes->{{3.692001395647448*^9, 3.6920015513319902`*^9}, {
+   3.692001582976798*^9, 3.692001652000444*^9}, 3.692001802350995*^9, {
+   3.692001879120618*^9, 3.692001931118011*^9}, 3.69200207639629*^9, {
+   3.692002130050613*^9, 3.6920021692327557`*^9}, {3.692002430765684*^9, 
+   3.692002465221229*^9}, {3.692002537299687*^9, 3.692002538889802*^9}, {
+   3.692002573068104*^9, 3.6920025813255053`*^9}, {3.692002913843192*^9, 
+   3.692002925389489*^9}, {3.692003018987751*^9, 3.692003037936961*^9}, {
+   3.692003359740012*^9, 3.692003364571062*^9}, {3.692003461942616*^9, 
+   3.692003574597261*^9}, {3.692003779371401*^9, 3.6920039114292183`*^9}, {
+   3.6920855936498337`*^9, 3.69208559509837*^9}, {3.692085801076488*^9, 
+   3.692085815108575*^9}, {3.6920868291911173`*^9, 3.692086841337323*^9}, {
+   3.692086922564014*^9, 3.692086937970162*^9}, {3.6920885948122997`*^9, 
+   3.692088640866467*^9}, {3.692090555374161*^9, 3.692090573114093*^9}, {
+   3.692090609716095*^9, 3.6920906250352097`*^9}, {3.69209125043079*^9, 
+   3.692091252319036*^9}, {3.692092086823511*^9, 3.692092100648172*^9}, {
+   3.6920930615268307`*^9, 3.692093062403679*^9}, {3.692093866354516*^9, 
+   3.6920938670177383`*^9}, {3.692166966144909*^9, 3.692166966480851*^9}, 
+   3.692263826027096*^9, {3.6923479813147573`*^9, 3.692348049202858*^9}, {
+   3.692348094625705*^9, 3.6923481982008667`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Funkce prettyExport", "Subsection",
+ CellChangeTimes->{{3.6920855977629547`*^9, 3.692085611834629*^9}}],
+
+Cell[TextData[{
+ "Tato funkce bude do prom\[EHacek]nn\[EAcute] ",
+ StyleBox["e",
+  FontWeight->"Bold"],
+ " ukl\[AAcute]dat sn\[IAcute]mky na kter\[YAcute]ch jsou zv\[YAcute]razn\
+\[EHacek]ny v\[SHacek]echny p\[RHacek]edchoz\[IAcute] st\[RHacek]edy objekt\
+\[URing] a z\[AAcute]rov\[EHacek]n ohrani\[CHacek]en\[IAcute] objektu st\
+\[AAcute]vaj\[IAcute]c\[IAcute]ho."
+}], "Text",
+ CellChangeTimes->{{3.6920856170706453`*^9, 3.692085657765894*^9}, {
+  3.692348203990019*^9, 3.692348204264605*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"prettyExport", "[", 
+    RowBox[{"p_", ",", "position_"}], "]"}], ":=", 
+   RowBox[{"(", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"p", "\[Equal]", "0"}], ",", " ", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+         "nenasel", " ", "jsem", " ", "objekt", " ", "s", " ", 
+          "pot\[RHacek]ebnou", " ", "barvou", " ", "na", " ", 
+          "st\[AAcute]vaj\[IAcute]c\[IAcute]m", " ", "sn\[IAcute]mku"}], ",", 
+         " ", 
+         RowBox[{
+         "tedy", " ", "zv\[YAcute]razn\[IAcute]m", " ", "v\[SHacek]echny", 
+          " ", "p\[RHacek]edchoz\[IAcute]", " ", "objekty"}]}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"im", "=", 
+         RowBox[{"Image", "[", 
+          RowBox[{"Show", "[", 
+           RowBox[{
+            RowBox[{
+            "imp", "\[LeftDoubleBracket]", "position", 
+             "\[RightDoubleBracket]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"Graphics", "[", 
+             RowBox[{"{", 
+              RowBox[{"Green", ",", "\[IndentingNewLine]", 
+               RowBox[{"Line", "[", "prev", "]"}]}], "}"}], "]"}]}], 
+           "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"e", ",", "im"}], "]"}], ";"}], "\[IndentingNewLine]", ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+         "na\[SHacek]el", " ", "jsem", " ", "objekt", " ", "s", " ", 
+          "p\[RHacek]\[IAcute]slu\[SHacek]nou", " ", "barvou"}], ",", " ", 
+         RowBox[{"z", " ", "listu", " ", "s", " ", "komponentami", " ", 
+          StyleBox["components",
+           FontWeight->"Plain"], 
+          StyleBox[" ",
+           FontWeight->"Plain"], 
+          StyleBox["vyt\[AAcute]hni",
+           FontWeight->"Plain"], 
+          StyleBox[" ",
+           FontWeight->"Plain"], 
+          StyleBox["ohrani\[CHacek]en\[IAcute]",
+           FontWeight->"Plain"], 
+          StyleBox[" ",
+           FontWeight->"Plain"], 
+          StyleBox["komponenty",
+           FontWeight->"Plain"], 
+          StyleBox[" ",
+           FontWeight->"Plain"], 
+          StyleBox["na",
+           FontWeight->"Plain"], 
+          StyleBox[" ",
+           FontWeight->"Plain"], 
+          StyleBox["pozici",
+           FontWeight->"Plain"], 
+          StyleBox[" ",
+           FontWeight->"Plain"], 
+          StyleBox[
+           RowBox[{"p", "."}],
+           FontWeight->"Plain"]}]}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"s", "=", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ComponentMeasurements", "[", 
+            RowBox[{
+             RowBox[{
+             "components", "\[LeftDoubleBracket]", "position", 
+              "\[RightDoubleBracket]"}], ",", "\"\<BoundingBox\>\""}], "]"}], 
+           "\[LeftDoubleBracket]", 
+           RowBox[{"All", ",", "2"}], "\[RightDoubleBracket]"}], 
+          "\[LeftDoubleBracket]", "p", "\[RightDoubleBracket]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+         "zv\[YAcute]razn\[IAcute]m", " ", "ohrani\[CHacek]en\[IAcute]", " ", 
+          "objektu", " ", "a", " ", "p\[RHacek]id\[AAcute]m", " ", 
+          "p\[RHacek]edchoz\[IAcute]", " ", "objekty", " ", "v", " ", 
+          "podob\[EHacek]", " ", "Line"}], "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"im", "=", 
+         RowBox[{"Image", "[", 
+          RowBox[{"Show", "[", 
+           RowBox[{
+            RowBox[{
+            "imp", "\[LeftDoubleBracket]", "position", 
+             "\[RightDoubleBracket]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"Graphics", "[", 
+             RowBox[{"{", 
+              RowBox[{"Green", ",", "\[IndentingNewLine]", 
+               RowBox[{"Line", "[", "prev", "]"}], ",", 
+               RowBox[{"EdgeForm", "[", 
+                RowBox[{"Directive", "[", 
+                 RowBox[{"Thick", ",", "Red"}], "]"}], "]"}], ",", 
+               "Transparent", ",", 
+               RowBox[{"Rectangle", "[", 
+                RowBox[{
+                 RowBox[{
+                 "s", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                 ",", 
+                 RowBox[{
+                 "s", "\[LeftDoubleBracket]", "2", 
+                  "\[RightDoubleBracket]"}]}], "]"}]}], "}"}], "]"}]}], 
+           "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+         "p\[RHacek]id\[AAcute]m", " ", "obr\[AAcute]zek", " ", "do", " ", 
+          "prom\[EHacek]nn\[EAcute]", " ", "e"}], "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"e", ",", "im"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"prev", ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+            "centers", "\[LeftDoubleBracket]", "position", 
+             "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+            "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "p", 
+           "\[RightDoubleBracket]"}]}], "]"}], ";"}]}], "\[IndentingNewLine]",
+       "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.6920856604182367`*^9, 3.692085787351686*^9}, {
+   3.692085945384132*^9, 3.692086008858349*^9}, {3.6920860489264*^9, 
+   3.692086108578474*^9}, {3.692086149406169*^9, 3.6920861521742067`*^9}, {
+   3.692086183319271*^9, 3.692086232110261*^9}, {3.6920862882662563`*^9, 
+   3.692086302832652*^9}, {3.692086334072914*^9, 3.692086454178203*^9}, {
+   3.692086550378674*^9, 3.6920865569391527`*^9}, {3.69208671153046*^9, 
+   3.692086715445863*^9}, 3.692263679116136*^9, {3.6923482811759167`*^9, 
+   3.692348409884684*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Funkce makePath", "Subsection",
+ CellChangeTimes->{{3.6920854976795464`*^9, 3.692085502589773*^9}}],
+
+Cell["\<\
+Nastav\[YAcute]m zde po\[CHacek]\[AAcute]te\[CHacek]n\[IAcute] hodnoty prom\
+\[EHacek]nn\[YAcute]ch a do prom\[EHacek]nn\[EAcute] path p\[RHacek]id\
+\[AAcute]m po\[CHacek]\[AAcute]te\[CHacek]n\[IAcute] bod, kter\[YAcute] bude \
+slou\[ZHacek]it k vypo\[CHacek]it\[AAcute]v\[AAcute]n\[IAcute] \
+vzd\[AAcute]lenosti.\
+\>", "Text",
+ CellChangeTimes->{{3.692002206476872*^9, 3.692002274125675*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"makePath", "[", 
+   RowBox[{"startId_", ",", "col_", ",", "odchylka_"}], "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"path", "=", 
+     RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"lastOk", "=", "1"}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+     "snimek", " ", "kde", " ", "jsem", " ", "naposledy", " ", "nalezl", " ", 
+      "zadanou", " ", "barvu"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"e", "=", 
+     RowBox[{"{", "}"}]}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+     "list", " ", "do", " ", "kter\[EAcute]ho", " ", "budu", " ", 
+      "p\[RHacek]id\[AAcute]vat", " ", "obr\[AAcute]zky", " ", "pro", " ", 
+      "export"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"prev", "=", 
+     RowBox[{"{", "}"}]}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{"p\[RHacek]edchoz\[IAcute]", " ", "body"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"AppendTo", "[", 
+     RowBox[{"path", ",", "startId"}], "]"}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+     "prvn\[IAcute]", " ", "objekt", " ", "je", " ", "ten", " ", 
+      "startovn\[IAcute]"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"prettyExport", "[", 
+     RowBox[{"startId", ",", "1"}], "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+     "vol\[AAcute]m", " ", "funkci", " ", "findNext", " ", "na", " ", 
+      "v\[SHacek]echny", " ", "sn\[IAcute]mky", " ", "od", " ", "2.", " ", 
+      "po", " ", "posledn\[IAcute]"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"findNext", "[", 
+       RowBox[{"col", ",", "#", ",", "odchylka"}], "]"}], "&"}], "/@", 
+     RowBox[{"Range", "[", 
+      RowBox[{"2", ",", 
+       RowBox[{"Length", "[", "components", "]"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+     "exportuji", " ", "video", " ", "nazvan\[EAcute]", " ", "detectBycolor", 
+      
+      RowBox[{"\"\<cislo\>\"", ".", "avi"}]}], "*)"}], "\[IndentingNewLine]", 
+    
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"\"\<detectByColor_\>\"", "<>", 
+       RowBox[{"ToString", "[", "startId", "]"}], "<>", "\"\<.avi\>\""}], ",",
+       "e"}], "]"}], ";"}], "\[IndentingNewLine]", ")"}]}]], "Input",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGCQAGIQ/cbEMOV942vH1Nr6NBBd8mFHPoje7lpWCqLfVVyo
+BdHx4iFNIFrsYsZqEH38S+FaEF1j8XoLiGb7JLQdRK/hY9sHortUrh0E0Qcb
+fl4F0c4pC2+A6Grhlf9AtJvxDdYPQPrf21v8INr3TLQAiJ5xWHQaiF4nVzYL
+RGcmRStKNL125NhZqgSiHfaneoDoauV9PiC6xpWtBkRPqjpeD6LldrT3gWi9
+iHv9YPk/4jNAtGTD3LkgOsA4bjmI1kmbD6b/1GkdAtHl+q1HQPTpk/vPgejZ
+RW4XwOqOS62XBNIvWu5uBNGH5ld9kgLSi8TjP4PoD1X5utJA+nu6qR6IZrq+
+PBJE815OjgLRq8vDm2YA6Xf3f7SD6NKJ3UfmA+klh76eANEAnqnNMQ==
+  "]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Pou\[ZHacek]it\[IAcute] funkc\[IAcute] (detectByColor_4.avi)", "Section",
+ CellChangeTimes->{{3.692085352902533*^9, 3.692085355250194*^9}, {
+  3.69236394267344*^9, 3.6923639489818373`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"team1", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.8", ",", "0.372549", ",", "0.258824"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"team2", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.215686", ",", "0.423529", ",", "0.541176"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rozhodci", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.84902", ",", "0.668627", ",", "0.0"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"components", "=", 
+    RowBox[{"Import", "[", "\"\<Data/Centers/Images/*.png\>\"", "]"}]}], 
+   ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"vyexportovan\[EAcute]", " ", "komponenty"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"imp", "=", 
+   RowBox[{"Import", "[", "\"\<Data/Base/*.png\>\"", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"centers", "=", 
+    RowBox[{"Import", "[", "\"\<Data/Centers/*.xls\>\"", "]"}]}], ";"}], " ", 
+  
+  RowBox[{"(*", 
+   RowBox[{"vyexportovan\[EAcute]", " ", "st\[RHacek]edy"}], 
+   "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.69115767124119*^9, 3.691157674021611*^9}, {
+   3.691157717993291*^9, 3.691157735765171*^9}, {3.691157765869216*^9, 
+   3.691157807486044*^9}, {3.691157858649478*^9, 3.691157863523364*^9}, {
+   3.691157926840769*^9, 3.691157990566387*^9}, {3.6911580432103*^9, 
+   3.691158069216501*^9}, {3.691158188054963*^9, 3.691158296298849*^9}, 
+   3.6911728409033613`*^9, {3.691183338299637*^9, 3.691183436022435*^9}, {
+   3.6911834682627583`*^9, 3.691183636141734*^9}, {3.691183680686926*^9, 
+   3.69118372079592*^9}, {3.691183789955016*^9, 3.691183833080574*^9}, {
+   3.691183873916205*^9, 3.691183984242982*^9}, {3.691184790741631*^9, 
+   3.691184837765852*^9}, {3.691184899980999*^9, 3.691184931923459*^9}, {
+   3.691184982076408*^9, 3.691185028592462*^9}, {3.691217780067596*^9, 
+   3.69121780286024*^9}, {3.691217886749771*^9, 3.6912179535977*^9}, {
+   3.691217987549631*^9, 3.691218031134886*^9}, {3.691218099730397*^9, 
+   3.691218112387341*^9}, {3.6912181499722853`*^9, 3.691218335798039*^9}, {
+   3.691229748867024*^9, 3.691229807683456*^9}, {3.691244651807398*^9, 
+   3.691244652585205*^9}, {3.691244692403153*^9, 3.691244926247953*^9}, {
+   3.691245040375141*^9, 3.6912450405733843`*^9}, {3.6912450997345877`*^9, 
+   3.691245108513866*^9}, {3.691245385403617*^9, 3.691245414034601*^9}, {
+   3.691948920552513*^9, 3.691949076590982*^9}, 3.691949112507791*^9, {
+   3.6919492121414833`*^9, 3.6919492553417892`*^9}, {3.691949322782217*^9, 
+   3.691949325088113*^9}, 3.6919524296072187`*^9, {3.691952544582711*^9, 
+   3.691952545725708*^9}, {3.692085421086246*^9, 3.692085421422482*^9}, {
+   3.692085888119937*^9, 3.692085897752906*^9}, 3.692349173108968*^9, {
+   3.692349593075433*^9, 3.692349610151231*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+N\[AAcute]sleduj\[IAcute]c\[IAcute]m p\[RHacek]\[IAcute]kazem \
+spust\[IAcute]me rekonstrukci pro hr\[AAcute]\[CHacek]e Id 4 a pro barvu \
+rozhodci\
+\>", "Subsection",
+ CellChangeTimes->{{3.692349565828916*^9, 3.692349585456658*^9}, {
+  3.69236340531643*^9, 3.692363411954509*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"makePath", "[", 
+    RowBox[{"4", ",", "rozhodci", ",", "0.03"}], "]"}], ";"}], " "}]], "Input",\
+
+ CellChangeTimes->{{3.692085925672123*^9, 3.692085948668325*^9}, {
+  3.692086514093478*^9, 3.6920865311579657`*^9}, {3.692086882450347*^9, 
+  3.692086889855302*^9}, {3.6923372619864187`*^9, 3.692337266189747*^9}, {
+  3.692338119653102*^9, 3.692338122780961*^9}, {3.692339026761335*^9, 
+  3.692339027328725*^9}, {3.692350130624641*^9, 3.692350138667961*^9}, {
+  3.692363928392233*^9, 3.6923639354020967`*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Pro v\[SHacek]echny hr\[AAcute]\[CHacek]e", "Section",
+ CellChangeTimes->{{3.692339411732923*^9, 3.6923394167783213`*^9}, {
+  3.69233964337748*^9, 3.692339644831558*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Na z\[AAcute]klad\[EHacek] objektu playerId, sou\[RHacek]adnice objektu \
+playerId, odchylku a barvu p\[RHacek]i\[RHacek]ad\[IAcute] objekty do t\
+\[YAcute]m\[URing].\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.692340184712878*^9, 3.692340252078446*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"containsColor", "[", 
+   RowBox[{
+   "playerID_", ",", "coordinates_", ",", "odchylka_", ",", "color_"}], "]"}],
+   ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"c", "=", 
+     RowBox[{"PixelValuePositions", "[", 
+      RowBox[{
+       RowBox[{"imp", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+       ",", 
+       RowBox[{"RGBColor", "[", "color", "]"}], ",", "odchylka"}], "]"}]}], 
+    ";", " ", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+      "pokud", " ", "obsahuje", " ", "sn\[IAcute]mek", " ", "zadanou", " ", 
+       "barvu"}], ",", " ", 
+      RowBox[{
+      "p\[RHacek]id\[AAcute]m", " ", "ho", " ", "do", " ", "listu", " ", 
+       "pom"}], ",", " ", 
+      RowBox[{
+      "kter\[YAcute]", " ", "pou\[ZHacek]\[IAcute]v\[AAcute]m", " ", "ve", 
+       " ", "funkci", " ", "findNext", " ", "pro", " ", "rekonstrukci", " ", 
+       "cesty", " ", "hr\[AAcute]\[CHacek]e"}]}], "*)"}], 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"ContainsAny", "[", 
+        RowBox[{"coordinates", ",", "c"}], "]"}], " ", "&&", " ", 
+       RowBox[{"color", "\[Equal]", "team1"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"team1Players", ",", "playerID"}], "]"}]}], 
+     "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"ContainsAny", "[", 
+        RowBox[{"coordinates", ",", "c"}], "]"}], " ", "&&", " ", 
+       RowBox[{"color", "\[Equal]", "team2"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"team2Players", ",", "playerID"}], "]"}]}], 
+     "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"ContainsAny", "[", 
+        RowBox[{"coordinates", ",", "c"}], "]"}], " ", "&&", " ", 
+       RowBox[{"color", "\[Equal]", "rozhodci"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"rozhodciPlayers", ",", "playerID"}], "]"}]}], 
+     "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+   ")"}]}]], "Input",
+ CellChangeTimes->{{3.692339645836553*^9, 3.692339687983993*^9}, {
+  3.692339759619728*^9, 3.692339767790181*^9}, {3.692339814301188*^9, 
+  3.69233985585751*^9}, {3.692339944466074*^9, 3.692340071351549*^9}, {
+  3.69234017852374*^9, 3.692340181516428*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "vol\[AAcute]", " ", "containsColor", " ", "na", " ", "v\[SHacek]echny", 
+     " ", "barvy", " ", "z", " ", "listu", " ", "colors"}], ",", " ", 
+    RowBox[{
+    "\[CHacek]\[IAcute]m\[ZHacek]", " ", "p\[RHacek]i\[RHacek]azuje", " ", 
+     "objekt", " ", "s", " ", "indexem", " ", "playerId", " ", "do", " ", 
+     "list\[URing]", " ", "team1Players"}], ",", " ", "team2players", ",", 
+    " ", 
+    RowBox[{"rozhodciPlayers", " ", "na", " ", "z\[AAcute]klad\[EHacek]", " ", 
+     RowBox[{"barvy", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"definePlayersColor", "[", 
+     RowBox[{"playerID_", ",", "colors_List", ",", "odchylka_"}], "]"}], ":=", 
+    RowBox[{"(", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "p\[RHacek]eveden\[IAcute]", " ", "sou\[RHacek]adnic", " ", 
+       "obr\[AAcute]zku", " ", "do", " ", "sou\[RHacek]adnic", " ", 
+       "pou\[ZHacek]\[IAcute]van\[YAcute]ch", " ", "Graphics", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"p\[RHacek]evzato", " ", 
+          RowBox[{"z", ":", " ", "http", ":"}]}], "//", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"mathematica", ".", "stackexchange", ".", "com"}], "/", 
+             "questions"}], "/", "100513"}], "/", "finding"}], "-", "pixel", 
+          "-", "coordinates", "-", "from", "-", "morphological", "-", 
+          "components"}]}], ")"}]}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"coordinates", "=", 
+       RowBox[{
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"-", "1"}], ",", 
+              RowBox[{
+               RowBox[{"ImageDimensions", "[", 
+                RowBox[{
+                "components", "\[LeftDoubleBracket]", "1", 
+                 "\[RightDoubleBracket]"}], "]"}], "\[LeftDoubleBracket]", 
+               "2", "\[RightDoubleBracket]"}]}], "}"}], "+", 
+            RowBox[{
+             RowBox[{"Reverse", "[", "#", "]"}], "*", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", 
+               RowBox[{"-", "1"}]}], "}"}]}]}], "&"}], ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"#", "[", "\"\<NonzeroPositions\>\"", "]"}], "&"}], "/@", 
+           
+           RowBox[{
+            RowBox[{"ComponentMeasurements", "[", 
+             RowBox[{
+              RowBox[{
+              "components", "\[LeftDoubleBracket]", "1", 
+               "\[RightDoubleBracket]"}], ",", "\"\<Mask\>\""}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", "2"}], "]"}], "]"}]}], ",", 
+          RowBox[{"{", "2", "}"}]}], "]"}], "\[LeftDoubleBracket]", 
+        "playerID", "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "na", " ", "sn\[IAcute]mku", " ", "z", " ", "listu", " ", "imp", " ", 
+        "na", " ", "pozici", " ", "pos", " ", "hled\[AAcute]m", " ", "barvu", 
+        " ", "color", " ", "s", " ", "odchylkou", " ", "0.01"}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"containsColor", "[", 
+         RowBox[{"playerID", ",", "coordinates", ",", "odchylka", ",", "#"}], 
+         "]"}], "&"}], "/@", "colors"}], ";"}], "\[IndentingNewLine]", 
+     ")"}]}], "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.692339502584518*^9, 3.692339559146968*^9}, 
+   3.692339590432822*^9, {3.6923396204342213`*^9, 3.692339641413432*^9}, {
+   3.6923397932764893`*^9, 3.6923399007830057`*^9}, 3.692339940119959*^9, {
+   3.69234002168044*^9, 3.6923400239281883`*^9}, {3.692340080496401*^9, 
+   3.692340086732718*^9}, {3.6923485106209097`*^9, 3.692348646998856*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Na\[CHacek]ten\[IAcute]", " ", "dat"}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"team1", "=", 
+     RowBox[{"{", 
+      RowBox[{"0.8", ",", "0.372549", ",", "0.258824"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"team2", "=", 
+     RowBox[{"{", 
+      RowBox[{"0.215686", ",", "0.423529", ",", "0.541176"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rozhodci", "=", 
+     RowBox[{"{", 
+      RowBox[{"0.84902", ",", "0.668627", ",", "0.0"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SetDirectory", "[", 
+     RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"components", "=", 
+     RowBox[{"Import", "[", "\"\<Data/Centers/Images/*.png\>\"", "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"imp", "=", 
+     RowBox[{"Import", "[", "\"\<Data/Base/*.png\>\"", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"centers", "=", 
+     RowBox[{"Import", "[", "\"\<Data/Centers/*.xls\>\"", "]"}]}], ";"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.692341919792921*^9, 3.69234192038099*^9}, {
+   3.692348655613562*^9, 3.692348662466161*^9}, 3.692349178878974*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Roz\[RHacek]azen\[IAcute] hr\[AAcute]\[CHacek]\[URing]", "Subsubsection",
+ CellChangeTimes->{{3.692348727822381*^9, 3.6923487338566008`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "vezme", " ", "po\[CHacek]et", " ", "komponent", " ", "a", " ", 
+    "rozt\[RHacek]\[IAcute]d\[IAcute]", " ", "tyto", " ", "komponenty", " ", 
+    "k", " ", "p\[RHacek]\[IAcute]slu\[SHacek]n\[YAcute]m", " ", 
+    "t\[YAcute]m\[URing]m"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"length", "=", 
+     RowBox[{"Length", "[", 
+      RowBox[{
+       RowBox[{
+       "centers", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+       "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], "]"}]}], ";"}],
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"colors", "=", 
+     RowBox[{"{", 
+      RowBox[{"rozhodci", ",", "team1", ",", "team2"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"team1Players", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"team2Players", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rozhodciPlayers", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"definePlayersColor", "[", 
+       RowBox[{"#", ",", "colors", ",", "0.03"}], "]"}], "&"}], "/@", 
+     RowBox[{"Range", "[", 
+      RowBox[{"1", ",", "length"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "objekty", " ", "pat\[RHacek]\[IAcute]c\[IAcute]", " ", "do", " ", 
+     "t\[YAcute]m\[URing]", " ", "na", " ", "prvn\[IAcute]m", " ", 
+     "obr\[AAcute]zku"}], "*)"}], "\[IndentingNewLine]", "team1Players", 
+   "\[IndentingNewLine]", "team2Players", "\[IndentingNewLine]", 
+   "rozhodciPlayers"}]}]], "Input",
+ CellChangeTimes->{{3.692339419075428*^9, 3.692339469870573*^9}, {
+  3.69233971012237*^9, 3.692339741657035*^9}, {3.6923399046688547`*^9, 
+  3.692339921725325*^9}, {3.692340093902363*^9, 3.692340130624034*^9}, {
+  3.692343058546492*^9, 3.692343090524984*^9}, {3.692348670455323*^9, 
+  3.6923487212902107`*^9}, {3.692364344163166*^9, 3.692364361385603*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", "3", "}"}]], "Output",
+ CellChangeTimes->{
+  3.692350238705475*^9, {3.692364337240691*^9, 3.6923643642057543`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"1", ",", "2", ",", "5"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.692350238705475*^9, {3.692364337240691*^9, 3.692364364206912*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", "4", "}"}]], "Output",
+ CellChangeTimes->{
+  3.692350238705475*^9, {3.692364337240691*^9, 3.6923643642080383`*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Spu\[SHacek]t\[EHacek]n\[IAcute] metody makePath pro r\[URing]zn\[EAcute] t\
+\[YAcute]my. V\[YAcute]po\[CHacek]et trv\[AAcute] opravdu dlouho!!\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.692348747921629*^9, 3.69234876016749*^9}, {
+  3.692358325438642*^9, 3.692358335302205*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"makePath", "[", 
+     RowBox[{"#", ",", "team1", ",", "0.03"}], "]"}], "&"}], "/@", 
+   "team1Players"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"makePath", "[", 
+     RowBox[{"#", ",", "team2", ",", "0.03"}], "]"}], "&"}], "/@", 
+   "team2Players"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"makePath", "[", 
+     RowBox[{"#", ",", "rozhodci", ",", "0.03"}], "]"}], "&"}], "/@", 
+   "rozhodciPlayers"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6923430953008738`*^9, 3.692343124848971*^9}, {
+  3.692348743006762*^9, 3.692348763829791*^9}}]
+}, Open  ]],
+
+Cell["\<\
+Pokud se pod\[IAcute]v\[AAcute]te na exportovan\[AAcute] videla \
+zjist\[IAcute]te, \[ZHacek]e program pracuje spr\[AAcute]vn\[EHacek] pouze \
+pro barvy, kter\[EAcute] jsou hodn\[EHacek] odli\[SHacek]n\[EAcute] od pozad\
+\[IAcute] (team1 a rozhodci). Nepovedlo se mi naj\[IAcute]t lep\[SHacek]\
+\[IAcute] zp\[URing]sob, jak sledovat pohyb hr\[AAcute]\[CHacek]e. Zkou\
+\[SHacek]el jsem je\[SHacek]t\[EHacek] pou\[ZHacek]\[IAcute]vat vektory a \
+rychlost hr\[AAcute]\[CHacek]e, ale nebylo to \[UAcute]sp\[EHacek]\[SHacek]n\
+\[EAcute], nebo\[THacek] pou\[ZHacek]\[IAcute]van\[EAcute] video je to\
+\[CHacek]eno z boku a tak\[EAcute] proto, \[ZHacek]e pohyb hr\[AAcute]\
+\[CHacek]\[URing] je zna\[CHacek]n\[EHacek] nep\[RHacek]edv\[IAcute]dateln\
+\[YAcute] a jejich sm\[EHacek]r i rychlost se \[CHacek]asto rapidn\[EHacek] m\
+\[EHacek]n\[IAcute].\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.692358316749021*^9, 3.692358321547803*^9}, {
+   3.692358403803235*^9, 3.692358441849881*^9}, 3.692358853021599*^9, {
+   3.6923639928149242`*^9, 3.69236410887479*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1600, 849},
+WindowMargins->{{569, -569}, {1, Automatic}},
+FrontEndVersion->"11.0 for Linux x86 (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 135, 1, 93, "Title"],
+Cell[CellGroupData[{
+Cell[740, 27, 122, 1, 65, "Section"],
+Cell[CellGroupData[{
+Cell[887, 32, 119, 1, 35, "Subsubsection"],
+Cell[1009, 35, 1212, 19, 121, "Text"],
+Cell[CellGroupData[{
+Cell[2246, 58, 206, 5, 32, "Input"],
+Cell[2455, 65, 155, 2, 32, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2659, 73, 157, 2, 35, "Subsubsection"],
+Cell[2819, 77, 2445, 58, 121, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5301, 140, 121, 1, 35, "Subsubsection"],
+Cell[5425, 143, 859, 16, 77, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6321, 164, 98, 1, 35, "Subsubsection"],
+Cell[6422, 167, 816, 18, 55, "Text"],
+Cell[CellGroupData[{
+Cell[7263, 189, 310, 8, 32, "Input"],
+Cell[7576, 199, 997, 23, 32, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8622, 228, 107, 1, 35, "Subsubsection"],
+Cell[8732, 231, 913, 18, 55, "Text"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9694, 255, 426, 7, 65, "Section"],
+Cell[10123, 264, 593, 10, 55, "Text"],
+Cell[10719, 276, 858, 19, 124, "Input"],
+Cell[CellGroupData[{
+Cell[11602, 299, 183, 3, 32, "Input"],
+Cell[11788, 304, 240, 4, 32, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12077, 314, 342, 6, 65, "Section"],
+Cell[12422, 322, 1487, 35, 77, "Text"],
+Cell[13912, 359, 5801, 139, 935, "Input"],
+Cell[CellGroupData[{
+Cell[19738, 502, 135, 1, 45, "Subsection"],
+Cell[19876, 505, 341, 9, 56, "Input"],
+Cell[20220, 516, 533, 16, 103, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20802, 538, 172, 2, 65, "Section"],
+Cell[20977, 542, 585, 18, 33, "Text"],
+Cell[21565, 562, 4273, 104, 325, "Input"],
+Cell[CellGroupData[{
+Cell[25863, 670, 158, 2, 35, "Subsubsection"],
+Cell[26024, 674, 613, 14, 33, "Text"],
+Cell[26640, 690, 4685, 106, 329, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[31362, 801, 286, 5, 35, "Subsubsection"],
+Cell[31651, 808, 720, 21, 33, "Text"],
+Cell[32374, 831, 6823, 159, 513, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[39234, 995, 109, 1, 45, "Subsection"],
+Cell[39346, 998, 494, 10, 33, "Text"],
+Cell[39843, 1010, 5903, 140, 533, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[45783, 1155, 105, 1, 44, "Subsection"],
+Cell[45891, 1158, 403, 7, 33, "Text"],
+Cell[46297, 1167, 2731, 65, 284, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[49077, 1238, 195, 2, 65, "Section"],
+Cell[49275, 1242, 2947, 63, 194, "Input"],
+Cell[CellGroupData[{
+Cell[52247, 1309, 291, 6, 45, "Subsection"],
+Cell[52541, 1317, 554, 11, 34, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[53144, 1334, 176, 2, 65, "Section"],
+Cell[CellGroupData[{
+Cell[53345, 1340, 265, 5, 35, "Subsubsection"],
+Cell[53613, 1347, 2531, 60, 353, "Input"],
+Cell[56147, 1409, 3857, 88, 258, "Input"],
+Cell[60007, 1499, 1339, 38, 216, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[61383, 1542, 147, 1, 35, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[61555, 1547, 2080, 50, 281, "Input"],
+Cell[63638, 1599, 143, 3, 32, "Output"],
+Cell[63784, 1604, 174, 4, 34, "Output"],
+Cell[63961, 1610, 143, 3, 32, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[64153, 1619, 290, 5, 35, "Subsubsection"],
+Cell[64446, 1626, 673, 20, 80, "Input"]
+}, Open  ]],
+Cell[65134, 1649, 1063, 16, 83, "Subsubsection"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
