@@ -5,6 +5,6 @@ Ve složce se nachází dva notebooky pro Wolfram Mathematica, složka Data a n�
 
 Oba notebooky není třeba spouštět, jejich výstupem jsou hlavně videa a ty jsou dostupná mimo Mathematicu.
 
-Notebook slodeshow.nb představuje práci na projektu, jak se projekt vyvíjel a jaké myšlenky mě vedli k použití jakých funkcí.
+Notebook slideshow.nb představuje práci na projektu, jak se projekt vyvíjel a jaké myšlenky mě vedli k použití jakých funkcí.
 
 Notebook byColor.nb obsahuje finální řešení.
